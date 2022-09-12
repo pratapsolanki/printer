@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:printer/app/data/product.dart';
+import 'package:printer/app/modules/home/controllers/product_controller.dart';
 import 'package:printer/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
+
+  final _productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +17,17 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: const Text('Printer Management'),
         centerTitle: true,
+        actions:  [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Obx(() =>  Center(child: Text("Total ${_productController.totalPrice}"))),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() => Center(
-              child: controller.cartItems.isNotEmpty
+              child: _productController.productList.isNotEmpty
                   ? generateList(context)
                   : const Text("No item present"),
             )),
@@ -28,7 +37,6 @@ class HomeView extends GetView<HomeController> {
         onPressed: () async {
           var results = await Get.toNamed(Routes.ADD) as Product;
           debugPrint(results.productName);
-          controller.addToCart(results);
         },
       ),
     );
@@ -36,13 +44,15 @@ class HomeView extends GetView<HomeController> {
 
   Widget generateList(BuildContext context) {
     return ListView.builder(
-        itemCount: controller.cartItems.length,
+        itemCount: _productController.productList.length,
+        physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           return Dismissible(
               key: UniqueKey(),
               direction: DismissDirection.endToStart,
               onDismissed: (_) {
-                controller.deleteItem(index);
+                _productController
+                    .delete(_productController.productList[index]);
               },
               background: Container(
                 color: Colors.red,
@@ -57,36 +67,13 @@ class HomeView extends GetView<HomeController> {
         });
   }
 
-  Widget cardItem(int index) {
-    return Card(
-      child: ListTile(
-          isThreeLine: true,
-          leading: Text("Qty ${controller.cartItems[index].qty}"),
-          onTap: () {
-            debugPrint("$index");
-          },
-          title: Text(controller.cartItems[index].productName),
-          subtitle: Text("${controller.cartItems[index].price}"),
-          trailing: IconButton(
-              color: Colors.black,
-              onPressed: () {
-                var product = controller.cartItems[index];
-                product.qty = product.qty + 1;
-                debugPrint(product.toString());
-                controller.updateItem(index, product);
-              },
-              icon: const Icon(Icons.add))),
-    );
-  }
-
   Widget cardItemRow(int index) {
+    Product task = _productController.productList[index];
+
     return GestureDetector(
       onTap: () async {
-        await Get.toNamed(Routes.EDIT, arguments: [
-          (controller.cartItems[index].productName),
-          (controller.cartItems[index].qty),
-          (controller.cartItems[index].price)
-        ])!
+        await Get.toNamed(Routes.EDIT,
+                arguments: [(task.productName), (task.qty), (task.price)])!
             .then((value) {
           controller.updateItem(index, value as Product);
         });
@@ -97,27 +84,21 @@ class HomeView extends GetView<HomeController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(controller.cartItems[index].productName),
-              Text("${controller.cartItems[index].price}"),
+              Text(task.productName!),
+              Text("${task.price}"),
               Row(
                 children: [
                   IconButton(
                       color: Colors.black,
                       onPressed: () {
-                        var product = controller.cartItems[index];
-                        product.qty = product.qty - 1;
-                        debugPrint(product.toString());
-                        controller.updateItem(index, product);
+                        _productController.updateQty(task.id!, task.qty! - 1);
                       },
                       icon: const Icon(Icons.remove)),
-                  Text("${controller.cartItems[index].qty}"),
+                  Text("${task.qty}"),
                   IconButton(
                       color: Colors.black,
                       onPressed: () {
-                        var product = controller.cartItems[index];
-                        product.qty = product.qty + 1;
-                        debugPrint(product.toString());
-                        controller.updateItem(index, product);
+                        _productController.updateQty(task.id!, task.qty! + 1);
                       },
                       icon: const Icon(Icons.add)),
                 ],

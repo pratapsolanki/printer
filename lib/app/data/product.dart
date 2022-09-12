@@ -1,21 +1,40 @@
 class Product {
-  int id;
-  String productName;
-  String productImage;
-  String productDescription;
-  double price;
-  int qty;
+  int? id;
+  String? productName;
+  String? productImage;
+  double? price;
+  String? productDescription;
+  int? qty;
+  String? date;
 
   Product(
-      {required this.id,
-      required this.productName,
-      required this.productImage,
-      required this.productDescription,
-      required this.price,
-      required this.qty});
+      {this.id,
+      this.productName,
+      this.productImage,
+      this.price,
+      this.date,
+      this.productDescription,
+      this.qty});
 
-  @override
-  String toString() {
-    return 'Product{id: $id, productName: $productName, productImage: $productImage, productDescription: $productDescription, price: $price, qty: $qty}';
+  Product.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productName = json['productName'];
+    productImage = json['productImage'];
+    price = json['price'];
+    date = json['date'];
+    productDescription = json['productDescription'];
+    qty = json['qty'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['productName'] = productName;
+    data['productImage'] = productImage;
+    data['price'] = price;
+    data['date'] = date;
+    data['productDescription'] = productDescription;
+    data['qty'] = qty;
+    return data;
   }
 }

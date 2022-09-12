@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:printer/app/data/product.dart';
 
+import '../../home/controllers/product_controller.dart';
 import '../controllers/add_controller.dart';
 
 class AddView extends GetView<AddController> {
@@ -11,6 +12,8 @@ class AddView extends GetView<AddController> {
   final _productName = TextEditingController();
   final _qty = TextEditingController();
   final _price = TextEditingController();
+
+  final _productController = Get.put(ProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +87,9 @@ class AddView extends GetView<AddController> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    _addTaskToDb();
+                    Get.back();
+                    /*
                     Get.back(
                         result: Product(
                             id: 1,
@@ -91,7 +97,7 @@ class AddView extends GetView<AddController> {
                             productImage: _productName.text.trim(),
                             productDescription: "productDescription",
                             price: double.parse(_price.text.trim()),
-                            qty: int.parse(_qty.text.trim())));
+                            qty: int.parse(_qty.text.trim())));*/
                   }
                 },
                 child: const Text("Save"),
@@ -101,5 +107,17 @@ class AddView extends GetView<AddController> {
         ),
       ),
     );
+  }
+
+  _addTaskToDb() async {
+    await _productController.addTask(
+        product: Product(
+            productName: _productName.text.trim(),
+            productImage: _productName.text.trim(),
+            productDescription: "productDescription",
+            price: double.parse(_price.text.trim()),
+            date: DateTime.now().toString(),
+            qty: int.parse(_qty.text.trim())));
+    debugPrint("My Id is " "inserted");
   }
 }

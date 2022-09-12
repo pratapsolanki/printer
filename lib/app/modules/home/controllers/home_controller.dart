@@ -30,7 +30,7 @@ class HomeController extends GetxController {
   int get count => cartItems.length;
 
   double get totalPrice =>
-      cartItems.fold(0, (sum, item) => sum + (item.price * item.qty));
+      cartItems.fold(0, (sum, item) => sum + (item.price! * item.qty!));
 
   @override
   void onInit() {

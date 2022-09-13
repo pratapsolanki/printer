@@ -33,7 +33,7 @@
   </tr>
   </table>
 
-
+   
 
  <video src="https://github.com/pratapsolanki/printer/blob/master/results/preview.mov"></video> 
 

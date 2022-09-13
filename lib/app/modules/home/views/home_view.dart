@@ -14,30 +14,35 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Printer Management'),
-        centerTitle: true,
-        actions:  [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Obx(() =>  Center(child: Text("Total ${_productController.totalPrice}"))),
-          )
-        ],
-      ),
+      appBar: AppBar(title: const Text('Print Management'), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() => Center(
               child: _productController.productList.isNotEmpty
                   ? generateList(context)
-                  : const Text("No item present"),
+                  : const Text("No product present"),
             )),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          var results = await Get.toNamed(Routes.ADD) as Product;
-          debugPrint(results.productName);
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Obx(
+            () => ElevatedButton(
+                onPressed: () async {
+                  var results = await Get.toNamed(Routes.ADD) as Product;
+                  debugPrint(results.productName);
+                },
+                child: Text("Total ${_productController.totalPrice}")),
+          ),
+          ElevatedButton(onPressed: () async {}, child: const Text("Print")),
+          ElevatedButton(
+              onPressed: () async {
+                var results = await Get.toNamed(Routes.ADD) as Product;
+                debugPrint(results.productName);
+              },
+              child: const Text("Add Product"))
+        ],
       ),
     );
   }
@@ -68,14 +73,17 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget cardItemRow(int index) {
-    Product task = _productController.productList[index];
+    Product product = _productController.productList[index];
 
     return GestureDetector(
       onTap: () async {
-        await Get.toNamed(Routes.EDIT,
-                arguments: [(task.productName), (task.qty), (task.price)])!
+        await Get.toNamed(Routes.EDIT, arguments: [
+          (product.productName),
+          (product.qty),
+          (product.price)
+        ])!
             .then((value) {
-          controller.updateItem(index, value as Product);
+          // controller.updateItem(index, value as Product);
         });
       },
       child: Card(
@@ -84,21 +92,27 @@ class HomeView extends GetView<HomeController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(task.productName!),
-              Text("${task.price}"),
+              Text(product.productName!),
+              Text("${product.price}"),
               Row(
                 children: [
                   IconButton(
                       color: Colors.black,
                       onPressed: () {
-                        _productController.updateQty(task.id!, task.qty! - 1);
+                        if (product.qty! > 1) {
+                          _productController.updateQty(
+                              product.id!, product.qty! - 1);
+                        }
                       },
                       icon: const Icon(Icons.remove)),
-                  Text("${task.qty}"),
+                  Text("${product.qty}"),
                   IconButton(
                       color: Colors.black,
                       onPressed: () {
-                        _productController.updateQty(task.id!, task.qty! + 1);
+                        if (product.qty! >= 1) {
+                          _productController.updateQty(
+                              product.id!, product.qty! + 1);
+                        }
                       },
                       icon: const Icon(Icons.add)),
                 ],

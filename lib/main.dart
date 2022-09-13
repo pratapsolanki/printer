@@ -11,7 +11,10 @@ Future<void> main() async {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Application",
+      title: "Print",
+      theme: ThemeData(
+        primarySwatch: Colors.green
+      ),
       defaultTransition: Transition.cupertino,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

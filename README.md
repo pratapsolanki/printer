@@ -26,18 +26,16 @@
     <tr>
     <td>Screen 4</td>
     <td>Screen 5</td>
-    <td>Video 6</td>
   </tr>
    <tr>
     <td valign="top"><img src="https://github.com/pratapsolanki/printer/blob/master/results/4.png"></td>
      <td valign="top"><img src="https://github.com/pratapsolanki/printer/blob/master/results/5.png"></td>
-      <td valign="top"><video src="https://github.com/pratapsolanki/printer/blob/master/results/preview.mov"></td>
   </tr>
   </table>
 
 
 
-(Video) <video src="https://github.com/pratapsolanki/printer/blob/master/results/preview.mov"></video> 
+ <video src="https://github.com/pratapsolanki/printer/blob/master/results/preview.mov"></video> 
 
 
 

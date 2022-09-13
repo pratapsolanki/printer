@@ -1,16 +1,43 @@
-# printer
+# Flutter SQLITE CRUD operation - Android/ios/Desktop
 
-A new Flutter project.
 
-## Getting Started
+## 💡 Local database:
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+- Add Product.
+- Qty increase/decrease
+- Edit Product.
+- Swipe to Delete.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##  💡 Screnshots
+
+<table>
+  <tr>
+    <td>Screen 1</td>
+     <td>Screen 2</td>
+     <td>Screen 3</td>
+  </tr>
+  <tr>
+    <td valign="top"><img src="https://github.com/pratapsolanki/printer/blob/master/results/1.png"></td>
+    <td valign="top"><img src="https://github.com/pratapsolanki/printer/blob/master/results/2.png"></td>
+    <td valign="top"><img src="hhttps://github.com/pratapsolanki/printer/blob/master/results/3.png"></td>
+  </tr>
+    <tr>
+    <td>Screen 4</td>
+    <td>Screen 5</td>
+  </tr>
+   <tr>
+    <td valign="top"><img src="https://github.com/pratapsolanki/printer/blob/master/results/4.png"></td>
+     <td valign="top"><img src="https://github.com/pratapsolanki/printer/blob/master/results/5.png"></td>
+  </tr>
+  </table>
+
+
+
+(Video) <video src="https://github.com/pratapsolanki/printer/blob/master/results/preview.mov"></video> 
+
+
+
+
+# Thanks for the reading! 

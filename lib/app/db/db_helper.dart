@@ -32,19 +32,24 @@ class DBHelper {
     }
   }
 
-  static Future<int> insert(Product? task) async {
-    return await _db?.insert(_tableName, task!.toJson()) ?? 1;
+  static Future<int> insert(Product? product) async {
+    return await _db?.insert(_tableName, product!.toJson()) ?? 1;
   }
 
   static Future<List<Map<String, dynamic>>> query() async {
     return await _db!.query(_tableName);
   }
 
-  static delete(Product task) async {
-    return await _db!.delete(_tableName, where: "id=?", whereArgs: [task.id]);
+  static delete(Product product) async {
+    return await _db!
+        .delete(_tableName, where: "id=?", whereArgs: [product.id]);
   }
 
-  static update(int id,int qty) async {
+  static Future<int> updateProduct(Product? product) async {
+    return await _db?.update(_tableName, product!.toJson()) ?? 1;
+  }
+
+  static updateQty(int id, int qty) async {
     return await _db!.rawUpdate('''
     UPDATE products
     SET qty = ?

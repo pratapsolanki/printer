@@ -37,4 +37,9 @@ class Product {
     data['qty'] = qty;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'Product{id: $id, productName: $productName, productImage: $productImage, price: $price, productDescription: $productDescription, qty: $qty, date: $date}';
+  }
 }

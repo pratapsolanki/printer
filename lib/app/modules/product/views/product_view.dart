@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:printer/app/data/product.dart';
-import 'package:printer/app/modules/home/controllers/product_controller.dart';
 import 'package:printer/app/routes/app_pages.dart';
 
-import '../controllers/home_controller.dart';
+import '../controllers/product_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  HomeView({Key? key}) : super(key: key);
-
-  final _productController = Get.put(ProductController());
+class ProductView extends GetView<ProductController> {
+  const ProductView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class HomeView extends GetView<HomeController> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() => Center(
-              child: _productController.productList.isNotEmpty
+              child: controller.productList.isNotEmpty
                   ? generateList(context)
                   : const Text("No product present"),
             )),
@@ -33,13 +30,15 @@ class HomeView extends GetView<HomeController> {
                   var results = await Get.toNamed(Routes.ADD) as Product;
                   debugPrint(results.productName);
                 },
-                child: Text("Total ${_productController.totalPrice}")),
+                child: Text("Total ${controller.totalPrice}")),
           ),
           ElevatedButton(onPressed: () async {}, child: const Text("Print")),
           ElevatedButton(
               onPressed: () async {
-                var results = await Get.toNamed(Routes.ADD) as Product;
-                debugPrint(results.productName);
+                await Get.toNamed(Routes.ADD)?.then((value) {
+                  debugPrint("inserted callback");
+                  controller.getTasks();
+                });
               },
               child: const Text("Add Product"))
         ],
@@ -49,15 +48,14 @@ class HomeView extends GetView<HomeController> {
 
   Widget generateList(BuildContext context) {
     return ListView.builder(
-        itemCount: _productController.productList.length,
+        itemCount: controller.productList.length,
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           return Dismissible(
               key: UniqueKey(),
               direction: DismissDirection.endToStart,
               onDismissed: (_) {
-                _productController
-                    .delete(_productController.productList[index]);
+                controller.delete(controller.productList[index]);
               },
               background: Container(
                 color: Colors.red,
@@ -73,18 +71,14 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget cardItemRow(int index) {
-    Product product = _productController.productList[index];
+    Product product = controller.productList[index];
 
     return GestureDetector(
       onTap: () async {
-        await Get.toNamed(Routes.EDIT, arguments: [
-          (product.productName),
-          (product.qty),
-          (product.price)
-        ])!
-            .then((value) {
-          // controller.updateItem(index, value as Product);
-        });
+        await Get.toNamed(
+          Routes.EDIT,
+          arguments: product,
+        )?.then((value) => {controller.getTasks()});
       },
       child: Card(
         child: Padding(
@@ -100,8 +94,7 @@ class HomeView extends GetView<HomeController> {
                       color: Colors.black,
                       onPressed: () {
                         if (product.qty! > 1) {
-                          _productController.updateQty(
-                              product.id!, product.qty! - 1);
+                          controller.updateQty(product.id!, product.qty! - 1);
                         }
                       },
                       icon: const Icon(Icons.remove)),
@@ -110,8 +103,7 @@ class HomeView extends GetView<HomeController> {
                       color: Colors.black,
                       onPressed: () {
                         if (product.qty! >= 1) {
-                          _productController.updateQty(
-                              product.id!, product.qty! + 1);
+                          controller.updateQty(product.id!, product.qty! + 1);
                         }
                       },
                       icon: const Icon(Icons.add)),

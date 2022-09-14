@@ -35,13 +35,19 @@ class ProductController extends GetxController {
     }
   }
 
-  void delete(Product task) {
-    DBHelper.delete(task);
+  void delete(Product product) {
+    DBHelper.delete(product);
     getTasks();
   }
 
   void updateQty(int id, int qty) async {
-    await DBHelper.update(id, qty);
+    await DBHelper.updateQty(id, qty);
     getTasks();
   }
+
+  Future<void> updateProduct(Product product) async {
+    DBHelper.updateProduct(product);
+    getTasks();
+  }
+
 }

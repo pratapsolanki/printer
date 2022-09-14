@@ -12,9 +12,7 @@ Future<void> main() async {
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Print",
-      theme: ThemeData(
-        primarySwatch: Colors.green
-      ),
+      theme: ThemeData(primarySwatch: Colors.green),
       defaultTransition: Transition.cupertino,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,

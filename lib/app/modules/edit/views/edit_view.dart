@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:printer/app/modules/product/controllers/product_controller.dart';
 
 import '../../../data/product.dart';
 import '../controllers/edit_controller.dart';
@@ -12,11 +12,16 @@ class EditView extends GetView<EditController> {
   final _qty = TextEditingController();
   final _price = TextEditingController();
 
+  final product = Get.arguments as Product;
+
+  final _productController = Get.put(ProductController());
+
   @override
   Widget build(BuildContext context) {
-    _productName.text = Get.arguments[0];
-    _qty.text = Get.arguments[1].toString();
-    _price.text = Get.arguments[2].toString();
+    debugPrint(product.toString());
+    _productName.text = product.productName!;
+    _qty.text = product.qty!.toString();
+    _price.text = product.price!.toString();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit'),
@@ -85,16 +90,17 @@ class EditView extends GetView<EditController> {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    Get.back(
-                        result: Product(
-                            id: 1,
-                            productName: _productName.text.trim(),
-                            productImage: _productName.text.trim(),
-                            productDescription: "productDescription",
-                            price: double.parse(_price.text.trim()),
-                            qty: int.parse(_qty.text.trim())));
+                    product.productName = _productName.text.trim();
+                    product.productDescription = _productName.text.trim();
+                    product.productImage = "";
+                    product.price = double.parse(_price.text.trim());
+                    product.qty = int.parse(_qty.text.trim());
+                    product.date = DateTime.now().toString();
+                    await _productController
+                        .updateProduct(product)
+                        .then((value) => {Get.back(result: "updated")});
                   }
                 },
                 child: const Text("Save"),

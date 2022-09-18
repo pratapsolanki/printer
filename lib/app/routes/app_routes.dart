@@ -7,6 +7,7 @@ abstract class Routes {
   static const PRODUCT = _Paths.PRODUCT;
   static const ADD = _Paths.ADD;
   static const EDIT = _Paths.EDIT;
+  static const PRINTER = _Paths.PRINTER;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const PRODUCT = '/product';
   static const ADD = '/add';
   static const EDIT = '/edit';
+  static const PRINTER = '/printer';
 }

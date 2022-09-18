@@ -4,6 +4,8 @@ import '../modules/add/bindings/add_binding.dart';
 import '../modules/add/views/add_view.dart';
 import '../modules/edit/bindings/edit_binding.dart';
 import '../modules/edit/views/edit_view.dart';
+import '../modules/printer/bindings/printer_binding.dart';
+import '../modules/printer/views/printer_view.dart';
 import '../modules/product/bindings/product_binding.dart';
 import '../modules/product/views/product_view.dart';
 
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.EDIT,
       page: () => EditView(),
       binding: EditBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRINTER,
+      page: () => PrinterView(),
+      binding: PrinterBinding(),
     ),
   ];
 }

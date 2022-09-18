@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:printer/app/data/product.dart';
+import 'package:printer/app/modules/product/views/prints.dart';
 import 'package:printer/app/routes/app_pages.dart';
 
 import '../controllers/product_controller.dart';
@@ -11,7 +12,24 @@ class ProductView extends GetView<ProductController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Print Management'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Print Management'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () async {
+              await Get.toNamed(Routes.ADD)?.then((value) {
+                debugPrint("inserted callback");
+                controller.getTasks();
+              });
+            },
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Obx(() => Center(
@@ -27,20 +45,17 @@ class ProductView extends GetView<ProductController> {
           Obx(
             () => ElevatedButton(
                 onPressed: () async {
-                  var results = await Get.toNamed(Routes.ADD) as Product;
-                  debugPrint(results.productName);
                 },
                 child: Text("Total ${controller.totalPrice}")),
           ),
-          ElevatedButton(onPressed: () async {}, child: const Text("Print")),
           ElevatedButton(
               onPressed: () async {
-                await Get.toNamed(Routes.ADD)?.then((value) {
+                await Get.to(Print())?.then((value) {
                   debugPrint("inserted callback");
                   controller.getTasks();
                 });
               },
-              child: const Text("Add Product"))
+              child: const Text("Print")),
         ],
       ),
     );

@@ -46,6 +46,8 @@ class DBHelper {
   }
 
   static Future<int> updateProduct(Product? product) async {
+    debugPrint(product.toString());
+    debugPrint(product!.toJson().toString());
     return await _db?.update(_tableName, product!.toJson()) ?? 1;
   }
 

@@ -9,6 +9,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: 4.6.5
   sqflite: ^2.0.2+1
+  flutter_usb_printer: ^0.1.0+1
+  esc_pos_utils_plus: ^2.0.1+6
+  intl: ^0.17.0
+
   flutter: 
     sdk: flutter
 

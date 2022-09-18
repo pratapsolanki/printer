@@ -56,6 +56,7 @@ class EditView extends GetView<EditController> {
                   Expanded(
                     child: TextFormField(
                         controller: _qty,
+                        keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Qty',
@@ -73,6 +74,7 @@ class EditView extends GetView<EditController> {
                   Expanded(
                     child: TextFormField(
                         controller: _price,
+                        keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Price',
@@ -94,10 +96,12 @@ class EditView extends GetView<EditController> {
                   if (_formKey.currentState!.validate()) {
                     product.productName = _productName.text.trim();
                     product.productDescription = _productName.text.trim();
-                    product.productImage = "";
+                    product.productImage = _productName.text.trim();
                     product.price = double.parse(_price.text.trim());
                     product.qty = int.parse(_qty.text.trim());
                     product.date = DateTime.now().toString();
+
+                    debugPrint(product.toString());
                     await _productController
                         .updateProduct(product)
                         .then((value) => {Get.back(result: "updated")});

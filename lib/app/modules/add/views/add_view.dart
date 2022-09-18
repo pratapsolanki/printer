@@ -51,6 +51,7 @@ class AddView extends GetView<AddController> {
                   Expanded(
                     child: TextFormField(
                         controller: _qty,
+                        keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Qty',
@@ -68,6 +69,7 @@ class AddView extends GetView<AddController> {
                   Expanded(
                     child: TextFormField(
                         controller: _price,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'Price',
